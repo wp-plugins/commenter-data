@@ -17,7 +17,7 @@ if( !class_exists('commenter_core') ){
                 if( class_exists('wpCommentAttachment') )
                     $this->attachment = true;
                 else
-                    $this->attachment = fale;
+                    $this->attachment = false;
 
                 unset($this->cd_fields['attachment']);
             }
