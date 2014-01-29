@@ -36,17 +36,30 @@ if( !class_exists('commenter') ){
         /* Function to download csv file */
         function cd_download(){
             
-            if( !empty( $_GET['cddcsv'] ) && $_GET['cddcsv'] == 1 && !empty( $_GET['pid'] ) ){
+            $upload_dir =   wp_upload_dir();
+            $filename   =   $upload_dir['basedir']. '/commentdata.csv';
+            
+            if( !empty( $_GET['cddcsv'] ) && $_GET['cddcsv'] == 1 && !empty( $_GET['pid'] ) && file_exists( $filename ) ){
 
                 $post = get_post( $_GET['pid'] );
-                $post = ($post->post_title);
+                $post = !empty($post->post_title) ? sanitize_title($post->post_title) : 'commenterdata';
+                
+                $file = fopen( $filename, 'r' );
+                $contents = fread($file, filesize($filename));
+                fclose($file);
 
-                $upload_dir = wp_upload_dir();
-                header('Content-Encoding: UTF-8');
-                header('Content-Type: text/plain; charset=utf-8');
-                header('Content-Disposition:attachment;filename='.$post.'.csv' );
-                header('Pragma: no-cache');
-                readfile( $upload_dir['basedir']. '/commentdata.csv' );
+                unlink($filename);
+
+                header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+                header('Content-Description: File Transfer');
+                header("Content-type: text/csv");
+                header("Content-Disposition: attachment; filename=".$post.'.csv');
+                header("Expires: 0");
+                header("Pragma: public");
+
+                $fh = @fopen( 'php://output', 'w' );
+                fwrite( $fh, $contents );
+                fclose($fh);
                 exit();
 
             }
@@ -86,6 +99,11 @@ if( !class_exists('commenter') ){
                     <div class="cds-field">
                         <input id="website" type="checkbox" name="cd_fields[website]" value="comment_author_url" <?php echo !empty( $this->cd_setting['website'] ) ? 'checked="checked"' : '' ?> />
                         <label for="website"><?php _e('Website','cd') ?></label>
+                    </div>
+
+                    <div class="cds-field">
+                        <input id="content" type="checkbox" name="cd_fields[content]" value="comment_content" <?php echo !empty( $this->cd_setting['content'] ) ? 'checked="checked"' : '' ?> />
+                        <label for="content"><?php _e('Comment content','cd') ?></label>
                     </div>
 
                     <div class="cds-field">

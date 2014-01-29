@@ -78,13 +78,15 @@ if( !class_exists('commenter_core') ){
                         $comment['attachment'] = $attachment;
                         unset($comment['comment_ID']);
 
+                        array_map( array($this, 'commenter_strip_tags'), $comment );
+
                         fputcsv( $csv_file, $comment );
                     }
 
                     $response['data'] = $upload_dir['basedir']. '/commentdata.csv';
                 }
             }
-            
+
             echo json_encode( $response );
             die;
         }
@@ -153,6 +155,14 @@ if( !class_exists('commenter_core') ){
             echo json_encode($response);
             die;
 
+        }
+        
+        /**
+         * Strip tags and return array value
+         */
+        function commenter_strip_tags($val){
+            
+            return strip_tags($val);
         }
 
     };

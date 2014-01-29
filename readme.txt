@@ -3,7 +3,7 @@ Contributors: ankitgadertcampcom, 5um17
 Tags: comments, csv, commenter, commentmeta, export
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv2 or later (of-course)
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,3 +44,9 @@ Activate it through the 'Plugins' section.
 
 == Screenshots ==
 Please visit (http://alnobody70.files.wordpress.com/2014/01/commentdata-scr.jpg "Commenter Data")
+
+== Changelog ==
+
+= 1.1 =
+* Add comment content export option in csv
+* Delete temporary created csv file in uploads folder
