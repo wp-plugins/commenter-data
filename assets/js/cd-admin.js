@@ -13,7 +13,6 @@ jQuery(document).ready(function(){
         /* Send ajax request */
         jQuery.post(ajaxurl, ajaxdata, function(response){
            
-            console.log(response)
             response = jQuery.parseJSON(response);
             if( response.error === false ){
 
@@ -38,8 +37,6 @@ jQuery(document).ready(function(){
         };
         
         jQuery.post( ajaxurl, ajaxdata, function(response){
-            
-            console.log(response);
             
             response = jQuery.parseJSON(response);
            
