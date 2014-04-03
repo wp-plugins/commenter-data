@@ -27,7 +27,7 @@ Plugin follows all the codex guidelines in its code.
 * Set of various options
 * Compatible with comment attachment plugin
 * Strong support.
-* For paid support and customization contact, http://sharethingz.com/contact/
+* For paid support and customization support contact http://sharethingz.com/contact/
 * Very lighweight code.
 * Translation ready code.
 
