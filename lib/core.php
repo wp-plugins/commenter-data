@@ -6,11 +6,13 @@ if( !class_exists('commenter_core') ){
         public $fields;
         public $attachment;
         public $cd_fields;
+        public $cd_karma; // For developer's use, storing extra data for use in filters and actions
 
         function __construct() {
 
             global $commenter;
-            $this->cd_fields = $commenter->cd_setting_val;
+            $this->cd_fields    =   $commenter->cd_setting_val;
+            $this->cd_karma     =   array();
             if( in_array( 'comment_attachment', $this->cd_fields ) ){
 
                 /* Check if comment attachment plugin is installed */
@@ -21,36 +23,41 @@ if( !class_exists('commenter_core') ){
 
                 unset($this->cd_fields['attachment']);
             }
+
+            /* Unset any data using this filter which is not present in wp_comments table i.e. columns */
+            $this->cd_karma     =   apply_filters( 'commenter_karma', $this->cd_karma, $this->cd_fields );
+            $this->cd_fields    =   apply_filters( 'commenter_filter_setting_data', $this->cd_fields );
+
             $this->fields = implode( ',', $this->cd_fields );
-            
 
             add_action( 'wp_ajax_commenter', array( $this, 'cd_create_csv' ) );
             add_action( 'wp_ajax_commenter_loadpost', array( $this, 'commenter_loadpost' ) );
             add_action( 'wp_ajax_commenter_setting', array( $this, 'cd_setting' ) );
+
         }
-        
+
         /* Creates csv file on ajax request */
         function cd_create_csv(){
 
             global $wpdb, $cd_columns, $commenter;
             $response = array('error'=>false, 'msg'=>'');
 
-            $query   =   "SELECT comment_ID, $this->fields FROM ".$wpdb->prefix."comments WHERE comment_approved='1' AND comment_post_ID='".$_POST['pid']."'";
+            $query   =   $wpdb->prepare( "SELECT comment_ID, $this->fields FROM ".$wpdb->prefix."comments WHERE comment_approved='1' AND comment_post_ID='%d'", $_POST['pid'] );
             $comments = $wpdb->get_results($query);
             $upload_dir = wp_upload_dir();
 
             $csv_file = fopen( $upload_dir['basedir']. '/commentdata.csv', 'w+');
-            
+
             if( !$csv_file ){
-                
+
                 $response = array('error'=>true, 'msg'=> __( '<p class="error">Uploads folder is not writable</p>', 'cd' ) );
 
             }else{
-                
+
                 $csv_heading = array();
-                
+
                 foreach( $cd_columns as $key => $val ){
-                    
+
                     if( in_array( $val, $commenter->cd_setting_val ) )
                         array_push( $csv_heading, $key );
                 }
@@ -63,10 +70,10 @@ if( !class_exists('commenter_core') ){
 
                         $comment  = (array)$comment;
                         $attachment = '';
-                        
+
                         /* Check if we also need to put attachment url */
                         if( $this->attachment ){
-                            
+
                             $attachment_id = get_comment_meta( $comment['comment_ID'], 'attachmentId', true );
                             if( !empty( $attachment_id ) ){
 
@@ -76,6 +83,9 @@ if( !class_exists('commenter_core') ){
                         }
 
                         $comment['attachment'] = $attachment;
+
+                        $comment    =   apply_filters( 'commenter_add_data_to_csv', $comment, $this->cd_karma );
+
                         unset($comment['comment_ID']);
 
                         array_map( array($this, 'commenter_strip_tags'), $comment );
@@ -118,7 +128,7 @@ if( !class_exists('commenter_core') ){
         
         /* Load posts */
         function commenter_loadpost(){
-            
+
             $response = array('ispost'=>true,'data'=>'');
             
             $offset = empty( $_POST['offset'] ) ? 1 : $_POST['offset'];
@@ -161,7 +171,7 @@ if( !class_exists('commenter_core') ){
          * Strip tags and return array value
          */
         function commenter_strip_tags($val){
-            
+
             return strip_tags($val);
         }
 

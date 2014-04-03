@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Commenter data
  * Description: Downloads commenter data in csv format.
- * Version: 1.1
+ * Version: 2.0
  * Author: wpgeeko
  * Author URI: http://sharethingz.com
  * License: GPL2

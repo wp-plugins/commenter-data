@@ -32,10 +32,10 @@ if( !class_exists('commenter') ){
 
             add_options_page( 'Commenter data Settings', 'Commenter data Settings', 'administrator', 'commenterdata-settings', array( $this, 'cd_renderer' ));
         }
-        
+
         /* Function to download csv file */
         function cd_download(){
-            
+
             $upload_dir =   wp_upload_dir();
             $filename   =   $upload_dir['basedir']. '/commentdata.csv';
             
@@ -110,7 +110,12 @@ if( !class_exists('commenter') ){
                         <input id="attachment" type="checkbox" name="cd_fields[attachment]" value="comment_attachment" <?php echo !empty( $this->cd_setting['attachment'] ) ? 'checked="checked"' : '' ?> />
                         <label for="attachment"><?php _e('Attachment URL','cd') ?></label>
                     </div>
-                    
+
+                    <?php
+                        /* Add fields in backend using this hook */
+                        do_action('commenter_add_field');
+                    ?>
+
                     <div class="cds-field">
                         <input class="cd-setting button" type="button" name="cds_submit" value="Save" />
                     </div>
