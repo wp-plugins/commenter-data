@@ -1,0 +1,25 @@
+/* 
+    Document   : cd-admin
+    Created on : 11 Jan, 2014, 3:32:23 PM
+    Author     : Ankit
+    Description:
+        Commenter data plugin stylesheet
+*/
+.cd-field * { vertical-align: middle; outline: none }
+    .cd-field img { display: none; }
+    
+.cd-setting-wrap { margin-bottom: 30px; background: #FFF; padding: 10px; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; width: 95%; }
+.cds-field { padding: 12px 0; border-top: 1px solid #DDD; }
+    .cds-field:first-child { border-top: none; }
+
+.cd-setting-wrap .success { background: rgb(121, 241, 121);padding: 5px;border: 1px solid #ccc; }
+.cd-setting-wrap .error { background: rgb(241, 163, 163);padding: 5px;border: 1px solid #ccc; }
+
+/* Post listing style */
+.cd-post-listing { overflow-y: scroll; height: 500px }
+.cd-each-post { padding: 8px 0; border-top: 1px solid #DDD; }
+    .cd-each-post:first-child { border: none; }
+.cd-each-post * { vertical-align: middle; display: inline-block }
+    .cd-each-post .cd-title-post { width: 80%; }
+    
+.cd-load { background: #ccc;padding: 10px 0;text-align: center;font-weight: bold;font-style: italic;font-size: 1.3em;cursor: pointer; }
