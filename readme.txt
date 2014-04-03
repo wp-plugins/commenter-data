@@ -26,7 +26,8 @@ Plugin follows all the codex guidelines in its code.
 * Exports csv file containing information of commenter
 * Set of various options
 * Compatible with comment attachment plugin
-* Strong support
+* Strong support.
+* For paid support and customization contact, http://sharethingz.com/contact/
 * Very lighweight code.
 * Translation ready code.
 
