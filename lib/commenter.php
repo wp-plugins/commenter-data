@@ -2,7 +2,7 @@
 if( !class_exists('commenter') ){
 
     class commenter {
-        
+
         public $cd_setting;
         public $cd_setting_val;
         public $cd_setting_default = array( 'name'=>0, 'email'=>0, 'website'=>0 );
@@ -30,7 +30,7 @@ if( !class_exists('commenter') ){
         /* Add option page */
         function cd_setting_page(){
 
-            add_options_page( 'Commenter data Settings', 'Commenter data Settings', 'administrator', 'commenterdata-settings', array( $this, 'cd_renderer' ));
+            add_menu_page( __( 'Commenter data Settings', 'cd' ) , __('Commenter Data', 'cd'), apply_filters( 'cd_cap', 'manage_options' ), 'commenterdata-settings', array( $this, 'cd_renderer' ), CD_IMG.'commenter.png' );
         }
 
         /* Function to download csv file */
@@ -38,12 +38,12 @@ if( !class_exists('commenter') ){
 
             $upload_dir =   wp_upload_dir();
             $filename   =   $upload_dir['basedir']. '/commentdata.csv';
-            
+
             if( !empty( $_GET['cddcsv'] ) && $_GET['cddcsv'] == 1 && !empty( $_GET['pid'] ) && file_exists( $filename ) ){
 
                 $post = get_post( $_GET['pid'] );
                 $post = !empty($post->post_title) ? sanitize_title($post->post_title) : 'commenterdata';
-                
+
                 $file = fopen( $filename, 'r' );
                 $contents = fread($file, filesize($filename));
                 fclose($file);
@@ -159,7 +159,7 @@ if( !class_exists('commenter') ){
             </div>
             <?php
         }
-        
+
         /* Add metaboxes */
         function cd_metaboxes(){
             

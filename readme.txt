@@ -1,9 +1,9 @@
 === Commenter Data ===
 Contributors: ankitgadertcampcom, 5um17
-Tags: comments, csv, commenter, commentmeta, export
+Tags: comments, csv, commenter, commentmeta, export, comment, lead, marketing
 Requires at least: 3.0
 Tested up to: 4.1
-Stable tag: 2.0
+Stable tag: 2.1
 License: GPLv2 or later (of-course)
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,3 +57,8 @@ Activate it through the 'Plugins' section.
 * commenter_add_field action to add more fields in backend on settings page.
 * commenter_filter_setting_data filter to filter the data before firing the sql query.
 * SQL query made more secure using $wpdb prepare method.
+
+= 2.1 =
+* cd_cap filter for filtering capability to view commenter data settings and download the csv file.
+* Assigned separate menu page for Commenter Data plugin settings.
+* Removed option page under Settings menu page.
